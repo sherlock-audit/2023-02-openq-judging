@@ -3,7 +3,7 @@
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/362 
 
 ## Found by 
-Robert, GimelSec, ltyu, cryptostellar5, bin2chen, yixxas, KingNFT, 0xdeadbeef, clems4ever, TrungOre, 0x52
+cryptostellar5, 0xdeadbeef, KingNFT, Robert, yixxas, ltyu, GimelSec, clems4ever, TrungOre, bin2chen, 0x52
 
 ## Summary
 
@@ -60,7 +60,7 @@ Funder == Issuer: https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/352 
 
 ## Found by 
-Robert, ltyu, XKET, ctf\_sec, 0x52, ck
+XKET, ck, Robert, ltyu, ctf\_sec, 0x52
 
 ## Summary
 
@@ -161,7 +161,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/267 
 
 ## Found by 
-cccz, rvierdiiev, 0x52, bin2chen, ctf\_sec, TrungOre, tsvetanovv
+rvierdiiev, tsvetanovv, cccz, bin2chen, TrungOre, ctf\_sec, 0x52
 
 ## Summary
 
@@ -225,7 +225,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/266 
 
 ## Found by 
-Robert, cccz, CodeFoxInc, libratus, 8olidity, ltyu, XKET, seyni, HonorLt, yixxas, Ruhum, holyhansss, unforgiven, ctf\_sec, ast3ros, TrungOre, 0xbepresent, 0x52
+TrungOre, holyhansss, CodeFoxInc, Ruhum, ast3ros, XKET, cccz, 0xbepresent, 8olidity, libratus, Robert, yixxas, ltyu, seyni, unforgiven, ctf\_sec, 0x52, HonorLt
 
 ## Summary
 
@@ -278,7 +278,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/77 
 
 ## Found by 
-Jeiwan, bin2chen, joestakey, KingNFT, carrot, clems4ever, jkoppel, chainNue, MyFDsYours, rvierdiiev, GimelSec, ak1, HonorLt, yixxas, HollaDieWaldfee, holyhansss, hake, Robert, eyexploit, ltyu, kiki\_dev, unforgiven, ctf\_sec, imare, TrungOre, 0x52, Atarpara, seyni, 0xdeadbeef
+Jeiwan, yixxas, seyni, 0x52, carrot, HollaDieWaldfee, holyhansss, chainNue, bin2chen, GimelSec, 0xdeadbeef, unforgiven, hake, HonorLt, joestakey, ak1, rvierdiiev, jkoppel, Atarpara, KingNFT, Robert, ctf\_sec, eyexploit, MyFDsYours, kiki\_dev, ltyu, imare, clems4ever, TrungOre
 
 ## Summary
 The `DepositManager` contract is in charge of refunding tokens from the individual bounties. This function ends up running a for loop over an unbounded array. This array can be made to be sufficiently large to exceed the block gas limit and cause out-of-gas errors and stop the processing of any refunds.
@@ -317,7 +317,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/117 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/62 
 
 ## Found by 
-Tricko, Jeiwan, bin2chen, joestakey, KingNFT, carrot, usmannk, clems4ever, jkoppel, rvierdiiev, GimelSec, HonorLt, yixxas, HollaDieWaldfee, hake, slowfi, Robert, cccz, CodeFoxInc, libratus, kiki\_dev, sinh3ck, unforgiven, oot2k, ctf\_sec, imare, 0xbepresent, 0x52, TrungOre, ck, whiteh4t9527, dipp, XKET, 0xdeadbeef, csanuragjain, tsvetanovv
+Jeiwan, 0xbepresent, whiteh4t9527, libratus, yixxas, 0x52, carrot, HollaDieWaldfee, csanuragjain, cccz, ck, bin2chen, GimelSec, 0xdeadbeef, dipp, unforgiven, slowfi, hake, HonorLt, joestakey, rvierdiiev, tsvetanovv, jkoppel, KingNFT, Robert, ctf\_sec, Tricko, oot2k, usmannk, CodeFoxInc, sinh3ck, XKET, kiki\_dev, imare, clems4ever, TrungOre
 
 ## Summary
 Any malicious user can fund a bounty contract with a malicious ERC20 contract and prevent winners from withdrawing their rewards.
@@ -446,7 +446,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/113 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/530 
 
 ## Found by 
-Jeiwan, bin2chen, RaymondFam, carrot, ast3ros, rvierdiiev, yixxas, cergyk, Breeje, HollaDieWaldfee, hake, CodeFoxInc, libratus, kiki\_dev, unforgiven, 0xbepresent, XKET, Ruhum, 0xdeadbeef, csanuragjain
+RaymondFam, Jeiwan, 0xbepresent, libratus, yixxas, carrot, HollaDieWaldfee, csanuragjain, bin2chen, 0xdeadbeef, unforgiven, hake, rvierdiiev, ast3ros, Breeje, CodeFoxInc, cergyk, Ruhum, XKET, kiki\_dev
 
 ## Summary
 Non-whitelisted tokens cannot be deposited to a bounty contract if too many whitelisted contracts were deposited.
@@ -481,78 +481,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/113
 
 
 
-# Issue M-2: Null characters are not checked in string values 
-
-Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/439 
-
-## Found by 
-0xdeadbeef, yongkiws
-
-## Summary
-
-OpenQ consumes data from the on-chain contracts using even monitoring with subgraph. 
-Strings with null characters that are emitted as part of an on-chain event will be recognized off-chain as if they were without null character. 
-
-This can corrupt data off-chain and possibly lead to impersonation.
-Some examples of strings that are emitted that include strings:
-`TokenDepositReceived` - contains issue id and organization name (ORG name ZZ\x00Z will be the same as ZZZ)
-`BountyClosed` - contains issue id and organization name (ORG name ZZ\x00Z will be the same as ZZZ), closer data.
-
-## Vulnerability Detail
-
-Events are emitted without validation that the string does not contain any null characters,
-Example can be found:
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/ClaimManager/Implementations/ClaimManagerV1.sol#L294
-
-Due to a known limitation on subgraph:
-https://github.com/graphprotocol/graph-tooling/issues/1098
-
-Events that contain strings with null characters will be transformed to the same string without the null characterss 
-
-## Impact
-
-The OpenQ platform is heavily dependent on the on-chain events execute the business.
-
-Events are emitted during critical operations such as funding, claiming, refunding, etc..
-
-An attacker can create strings that will corrupt the data and possibly impersonate himself to a user/org
-- ORG name ZZ\x00Z will be the same as ZZZ
-
-
-## Code Snippet
-
-In the description
-
-## Tool used
-
-Manual Review
-
-## Recommendation
-
-Consider adding a validator function that checks every index of the string to see if it is the ASCII range.
-This will also help restrict to specific encoding.
-
-## Discussion
-
-**FlacoJones**
-
-https://github.com/OpenQDev/OpenQ-Contracts/pull/128
-
-**hrishibhat**
-
-Sponsor comment:
-
-> I believe it could allow for user impersonation if they used escape characters to pose as someone else and attempt to claim
-
-
-
-
-# Issue M-3: Claimed amount of tokens will be computed incorrectly if rebasing token is used 
+# Issue M-2: Claimed amount of tokens will be computed incorrectly if rebasing token is used 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/305 
 
 ## Found by 
-Avci, libratus, GimelSec, ak1, yixxas, Breeje, carrot, \_\_141345\_\_, TrungOre, ADM, tsvetanovv
+ak1, ADM, \_\_141345\_\_, tsvetanovv, Avci, Breeje, libratus, yixxas, GimelSec, TrungOre, carrot
 
 ## Summary
 Protocol wants to support all kinds of tokens, including rebasing tokens as noted in Sherlock's On-chain context guidelines. If rebasing tokens are used as payoutTokens for TieredPercentageBounty, users may either underclaim or overclaim dependant on whether token rebased up or down. One of the more popular rebasing token is stETH, with a 5 billion market cap currently.
@@ -616,12 +550,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112
 
 
 
-# Issue M-4: [Medium] - Funds locked if bounty is funded with both ether and erc20 tokens at the same time 
+# Issue M-3: [Medium] - Funds locked if bounty is funded with both ether and erc20 tokens at the same time 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/288 
 
 ## Found by 
-Tricko, Jeiwan, joestakey, caventa, nicobevi, carrot, usmannk, clems4ever, rvierdiiev, HonorLt, yixxas, HollaDieWaldfee, eyexploit, 8olidity, ctf\_sec, 0xbepresent, Aymen0909, 0x52, Bauer, Ruhum, peanuts, ADM
+Jeiwan, 0xbepresent, peanuts, yixxas, 0x52, carrot, HollaDieWaldfee, caventa, nicobevi, 8olidity, HonorLt, Bauer, joestakey, rvierdiiev, ADM, Aymen0909, ctf\_sec, Tricko, usmannk, eyexploit, Ruhum, clems4ever
 
 ## Summary
 When a bounty is created. Next step is to fund such bounty with the rewards by the creator. To do that, a call to `fundBountyToken()` in [DepositManagerV1.sol](https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/DepositManager/Implementations/DepositManagerV1.sol#L36-L74) must be done. This function allows both kind of funds, native tokens (eth) sending value to the transaction, or any allowed token through `_tokenAddress` (previously whitelisted by the protocol).
@@ -683,12 +617,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/123
 
 
 
-# Issue M-5: Adversary can break any bounty they wish by depositing an NFT then refunding it 
+# Issue M-4: Adversary can break any bounty they wish by depositing an NFT then refunding it 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/263 
 
 ## Found by 
-Robert, Tricko, cccz, libratus, 8olidity, rvierdiiev, bin2chen, HonorLt, cergyk, Ruhum, HollaDieWaldfee, usmannk, unforgiven, TrungOre, StErMi, 0x52
+TrungOre, cergyk, rvierdiiev, usmannk, Ruhum, cccz, 8olidity, libratus, StErMi, Robert, bin2chen, unforgiven, 0x52, HollaDieWaldfee, Tricko, HonorLt
 
 ## Summary
 
@@ -738,12 +672,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/114
 
 
 
-# Issue M-6: Adversary can break NFT distribution by depositing up to max then refunding all of them 
+# Issue M-5: Adversary can break NFT distribution by depositing up to max then refunding all of them 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/262 
 
 ## Found by 
-libratus, GimelSec, Jeiwan, dipp, bin2chen, caventa, HonorLt, kiki\_dev, Ruhum, HollaDieWaldfee, unforgiven, ctf\_sec, clems4ever, jkoppel, 0x52, 0xmuxyz
+caventa, Jeiwan, 0xmuxyz, jkoppel, Ruhum, unforgiven, libratus, kiki\_dev, bin2chen, GimelSec, clems4ever, dipp, ctf\_sec, 0x52, HollaDieWaldfee, HonorLt
 
 ## Summary
 
@@ -791,12 +725,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/114
 
 
 
-# Issue M-7: OngoingBountyV1 is incompatible with NFTs but still accepts NFT deposits 
+# Issue M-6: OngoingBountyV1 is incompatible with NFTs but still accepts NFT deposits 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/261 
 
 ## Found by 
-cccz, libratus, dipp, GimelSec, Jeiwan, seyni, joestakey, kiki\_dev, cergyk, Ruhum, carrot, HollaDieWaldfee, csanuragjain, ctf\_sec, StErMi, 0x52, 0xmuxyz
+csanuragjain, Jeiwan, joestakey, 0xmuxyz, cergyk, HollaDieWaldfee, Ruhum, cccz, libratus, kiki\_dev, seyni, GimelSec, dipp, ctf\_sec, 0x52, carrot, StErMi
 
 ## Summary
 
@@ -840,12 +774,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112
 
 
 
-# Issue M-8: Refunding logic with multiple deposits is first mover take all 
+# Issue M-7: Refunding logic with multiple deposits is first mover take all 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/257 
 
 ## Found by 
-libratus, Jeiwan, ltyu, joestakey, yixxas, chaduke, Ruhum, HollaDieWaldfee, ctf\_sec, 0x52
+Jeiwan, joestakey, Ruhum, chaduke, libratus, yixxas, ltyu, ctf\_sec, 0x52, HollaDieWaldfee
 
 ## Summary
 
@@ -890,12 +824,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 
 
 
-# Issue M-9: Resizing the payout schedule with less items might revert 
+# Issue M-8: Resizing the payout schedule with less items might revert 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/244 
 
 ## Found by 
-rvierdiiev, Jeiwan, GimelSec, XKET, bin2chen, ak1, HonorLt, caventa, usmannk, unforgiven, clems4ever, TrungOre, ArcAnya, StErMi, 0x52, ck
+caventa, TrungOre, Jeiwan, ak1, rvierdiiev, usmannk, XKET, ck, ArcAnya, bin2chen, GimelSec, clems4ever, unforgiven, 0x52, StErMi, HonorLt
 
 ## Summary
 
