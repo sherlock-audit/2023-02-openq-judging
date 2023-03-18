@@ -3,7 +3,7 @@
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/362 
 
 ## Found by 
-cryptostellar5, 0xdeadbeef, KingNFT, Robert, yixxas, ltyu, GimelSec, clems4ever, TrungOre, bin2chen, 0x52
+Robert, 0x52, GimelSec, TrungOre, bin2chen, 0xdeadbeef, clems4ever, KingNFT
 
 ## Summary
 
@@ -60,7 +60,7 @@ Funder == Issuer: https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/352 
 
 ## Found by 
-XKET, ck, Robert, ltyu, ctf\_sec, 0x52
+Robert, 0x52, ck, ctf\_sec, XKET, ltyu
 
 ## Summary
 
@@ -106,6 +106,35 @@ Will fix with an explicity OpenQTokenWhitelist, no arbitrary token addresses
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/113 and https://github.com/OpenQDev/OpenQ-Contracts/pull/116 and https://github.com/OpenQDev/OpenQ-Contracts/pull/114 effectively remove the possibility of this exploit
 
+**pauliax**
+
+Escalate for 52 USDC. 
+I think this issue is essentially the same as #62. It does not matter if the token is ERC20, ERC721, ERC1155 or ERC777, or whatever, what matters is that this impostor contract pretends to comply with the funding function only later to reveal its dark side. Based on my interpretation, all the issues that are talking about feeding the bounty with 'wrong' tokens should be grouped together under one issue, because all of them are giving basically the same effect.
+
+**sherlock-admin**
+
+ > Escalate for 52 USDC. 
+> I think this issue is essentially the same as #62. It does not matter if the token is ERC20, ERC721, ERC1155 or ERC777, or whatever, what matters is that this impostor contract pretends to comply with the funding function only later to reveal its dark side. Based on my interpretation, all the issues that are talking about feeding the bounty with 'wrong' tokens should be grouped together under one issue, because all of them are giving basically the same effect.
+
+You've created a valid escalation for 52 USDC!
+
+To remove the escalation from consideration: Delete your comment.
+To change the amount you've staked on this escalation: Edit your comment **(do not create a new comment)**.
+
+You may delete or edit your escalation comment anytime before the 48-hour escalation window closes. After that, the escalation becomes final.
+
+**Evert0x**
+
+Escalation rejected. OpenQ used the same method of locking down everything to a whitelist as a means to fix all of them but they are not all the same and would have needed different fixes for each one if OpenQ had wanted to keep the funding process open.
+
+**sherlock-admin**
+
+> Escalation rejected. OpenQ used the same method of locking down everything to a whitelist as a means to fix all of them but they are not all the same and would have needed different fixes for each one if OpenQ had wanted to keep the funding process open.
+
+This issue's escalations have been rejected!
+
+Watsons who escalated this issue will have their escalation amount deducted from their next payout.
+
 
 
 # Issue H-3: Tier winner can steal excess funds from tiered percentage bounty if any deposits are expired 
@@ -113,7 +142,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/113 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/275 
 
 ## Found by 
-0x52
+Robert, 0x52, bin2chen, ast3ros, unforgiven, jkoppel
 
 ## Summary
 
@@ -154,6 +183,139 @@ All deposits should be locked for some minimum amount of time after a tiered bou
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/112 and https://github.com/OpenQDev/OpenQ-Contracts/pull/117
 
+**sherlock-admin**
+
+> N/A
+
+You've deleted an escalation for this issue.
+
+**ctf-sec**
+
+Escalate for 50 USDC. I would love to make a few arguments: this exploits path is feasible because first of all, user can claim the refund after the competition is closed and the snapshot of the tierPercentageContract balance is taken. secondly, the expiration time can be gamed. then the exploit path is formulated:
+
+> These balance snapshots are used to calculate the amount to pay of each payout token. The balances are only snapshot once and don't change when deposits are refunded. A tier winner can abuse this structure to steal excess funds from the contract if there are any expired deposits. This would be accomplished by using a very short-lived deposit to artificially inflate the prize pool before claiming and refunding to drain all available funds.
+
+However, the issue "user can claim the refund after the competition is closed" is already rewarded, then either 266 should be considered as a duplicate of this issue or this issue can be considered as a duplicate of the 266
+
+https://github.com/sherlock-audit/2023-02-openq-judging/issues/266
+
+the issue " This would be accomplished by using a very short-lived deposit to artificially inflate the prize pool before claiming" because the expiration can be gamed, adversary can set short expiration time.
+
+which is the issue: https://github.com/sherlock-audit/2023-02-openq-judging/issues/229, but is it not rewarded.
+
+my issue https://github.com/sherlock-audit/2023-02-openq-judging/issues/187 also mentioned that the expiration time can be gamed as well and I did articulate the impact:
+
+> Developer B failed to claim the entitled bounty because User A set expiration time too short and claim the refund.
+
+I think https://github.com/sherlock-audit/2023-02-openq-judging/issues/229 can be considered as the duplicate of this issue as well because the short expiration is crucial to this attack. this leads to my next point.
+
+I think this bug report should be a medium instead of high, according to the judging guide given the risk of the attacker is taking.
+
+https://docs.sherlock.xyz/audits/watsons/judging
+
+> Criteria for Issues:
+Medium: There is a viable scenario (even if unlikely) that could cause the protocol to enter a state where a material amount of funds can be lost. The attack path is possible with assumptions that either mimic on-chain conditions or reflect conditions that have a reasonable chance of becoming true in the future. The more expensive the attack is for an attacker, the less likely it will be included as a Medium (holding all other factors constant). The vulnerability must be something that is not considered an acceptable risk by a reasonable protocol team.
+
+> High: This vulnerability would result in a material loss of funds and the cost of the attack is low (relative to the amount of funds lost). The attack path is possible with reasonable assumptions that mimic on-chain conditions. The vulnerability must be something that is not considered an acceptable risk by a reasonable protocol team.
+
+I argue that the attack cost is not low at all, and the attack is risky and the attack can lose money.
+
+Just using the POC provided in this bug report:
+
+> User A creates a competition with 10,000 USDC in prizes. The contest goes longer than expected and their deposit becomes available for refund. User B wins 3rd place which entitles them to 10% of the pool. User A makes a call adding User B as the winner of tier 2 (3rd place). User B calls DepositManagerV1#fundBountyToken to fund the bounty with 90,000 USDC and a _expiration of 1 (second). They then call ClaimManagerV1#permissionedClaimTieredBounty which snapshots the total bounty at 100,000 USDC and entitles User B to 10,000 USDC (10%) of winnings. 
+
+> The next block User B calls DepositManagerV1#refundDeposit and refunds their deposit. Since the initial 10,000 USDC deposit has expired, User B withdraws the other 90,000 USDC in the contract. This leaves the bounty with no funds.
+
+Even though the expiration time is set to 1 second, before the malicious user B call refundDeposit to claim the 90000 USDC, it is very possible that user C, another tier winner (for example, user C is the tier 1 winner and is eligible for winning 50% of the reward), user C call permissionedClaimTieredBounty to claim 50% of the 100,000 (10000 USDC provided by User A and the rest provided by User B), user C unexpectedly getting 5,0000 but the malicious user B is losing a lot of money.
+
+The lower tier the malicious winner, the more difficult the attack is and the attack is not profitable at all if the attacker lose a lot of money nd athe other tier winner claims the tiered rewards before the attacker refund the token, thus I think the cost of the attack is high and the issue is a medium issue instead of a HIGH issue.
+
+To summarize my point:
+
+1. the root cause: the deposit expiration time is gamed and should be marked as a duplicate of this issue.
+2. the issue should be a medium issue given the cost of the attack and the potential heavy loss of the attacker.
+
+
+
+**sherlock-admin**
+
+ > Escalate for 50 USDC. I would love to make a few arguments: this exploits path is feasible because first of all, user can claim the refund after the competition is closed and the snapshot of the tierPercentageContract balance is taken. secondly, the expiration time can be gamed. then the exploit path is formulated:
+> 
+> > These balance snapshots are used to calculate the amount to pay of each payout token. The balances are only snapshot once and don't change when deposits are refunded. A tier winner can abuse this structure to steal excess funds from the contract if there are any expired deposits. This would be accomplished by using a very short-lived deposit to artificially inflate the prize pool before claiming and refunding to drain all available funds.
+> 
+> However, the issue "user can claim the refund after the competition is closed" is already rewarded, then either 266 should be considered as a duplicate of this issue or this issue can be considered as a duplicate of the 266
+> 
+> https://github.com/sherlock-audit/2023-02-openq-judging/issues/266
+> 
+> the issue " This would be accomplished by using a very short-lived deposit to artificially inflate the prize pool before claiming" because the expiration can be gamed, adversary can set short expiration time.
+> 
+> which is the issue: https://github.com/sherlock-audit/2023-02-openq-judging/issues/229, but is it not rewarded.
+> 
+> my issue https://github.com/sherlock-audit/2023-02-openq-judging/issues/187 also mentioned that the expiration time can be gamed as well and I did articulate the impact:
+> 
+> > Developer B failed to claim the entitled bounty because User A set expiration time too short and claim the refund.
+> 
+> I think https://github.com/sherlock-audit/2023-02-openq-judging/issues/229 can be considered as the duplicate of this issue as well because the short expiration is crucial to this attack. this leads to my next point.
+> 
+> I think this bug report should be a medium instead of high, according to the judging guide given the risk of the attacker is taking.
+> 
+> https://docs.sherlock.xyz/audits/watsons/judging
+> 
+> > Criteria for Issues:
+> Medium: There is a viable scenario (even if unlikely) that could cause the protocol to enter a state where a material amount of funds can be lost. The attack path is possible with assumptions that either mimic on-chain conditions or reflect conditions that have a reasonable chance of becoming true in the future. The more expensive the attack is for an attacker, the less likely it will be included as a Medium (holding all other factors constant). The vulnerability must be something that is not considered an acceptable risk by a reasonable protocol team.
+> 
+> > High: This vulnerability would result in a material loss of funds and the cost of the attack is low (relative to the amount of funds lost). The attack path is possible with reasonable assumptions that mimic on-chain conditions. The vulnerability must be something that is not considered an acceptable risk by a reasonable protocol team.
+> 
+> I argue that the attack cost is not low at all, and the attack is risky and the attack can lose money.
+> 
+> Just using the POC provided in this bug report:
+> 
+> > User A creates a competition with 10,000 USDC in prizes. The contest goes longer than expected and their deposit becomes available for refund. User B wins 3rd place which entitles them to 10% of the pool. User A makes a call adding User B as the winner of tier 2 (3rd place). User B calls DepositManagerV1#fundBountyToken to fund the bounty with 90,000 USDC and a _expiration of 1 (second). They then call ClaimManagerV1#permissionedClaimTieredBounty which snapshots the total bounty at 100,000 USDC and entitles User B to 10,000 USDC (10%) of winnings. 
+> 
+> > The next block User B calls DepositManagerV1#refundDeposit and refunds their deposit. Since the initial 10,000 USDC deposit has expired, User B withdraws the other 90,000 USDC in the contract. This leaves the bounty with no funds.
+> 
+> Even though the expiration time is set to 1 second, before the malicious user B call refundDeposit to claim the 90000 USDC, it is very possible that user C, another tier winner (for example, user C is the tier 1 winner and is eligible for winning 50% of the reward), user C call permissionedClaimTieredBounty to claim 50% of the 100,000 (10000 USDC provided by User A and the rest provided by User B), user C unexpectedly getting 5,0000 but the malicious user B is losing a lot of money.
+> 
+> The lower tier the malicious winner, the more difficult the attack is and the attack is not profitable at all if the attacker lose a lot of money nd athe other tier winner claims the tiered rewards before the attacker refund the token, thus I think the cost of the attack is high and the issue is a medium issue instead of a HIGH issue.
+> 
+> To summarize my point:
+> 
+> 1. the root cause: the deposit expiration time is gamed and should be marked as a duplicate of this issue.
+> 2. the issue should be a medium issue given the cost of the attack and the potential heavy loss of the attacker.
+> 
+> 
+
+You've created a valid escalation for 50 USDC!
+
+To remove the escalation from consideration: Delete your comment.
+To change the amount you've staked on this escalation: Edit your comment **(do not create a new comment)**.
+
+You may delete or edit your escalation comment anytime before the 48-hour escalation window closes. After that, the escalation becomes final.
+
+**hrishibhat**
+
+Escalation rejected
+
+Issue #275 and #266 are different as 275 is about a malicious user inflating the prize pool to steal extra funds using refund deposit and short expiration time. While 266 is user breaking the payouts by first depositing, setting fundingTotals & using refund. 
+
+Both issues #229 and #187 do not talk of the above attacks. and mentions only the part of the short expiration time that the Sponsor has addressed in the respective issue. 
+
+
+
+**sherlock-admin**
+
+> Escalation rejected
+> 
+> Issue #275 and #266 are different as 275 is about a malicious user inflating the prize pool to steal extra funds using refund deposit and short expiration time. While 266 is user breaking the payouts by first depositing, setting fundingTotals & using refund. 
+> 
+> Both issues #229 and #187 do not talk of the above attacks. and mentions only the part of the short expiration time that the Sponsor has addressed in the respective issue. 
+> 
+> 
+
+This issue's escalations have been rejected!
+
+Watsons who escalated this issue will have their escalation amount deducted from their next payout.
+
 
 
 # Issue H-4: Adversary can permanently break percentage tier bounties by funding certain ERC20 tokens then refunding 
@@ -161,7 +323,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/267 
 
 ## Found by 
-rvierdiiev, tsvetanovv, cccz, bin2chen, TrungOre, ctf\_sec, 0x52
+rvierdiiev, 0x52, bin2chen, TrungOre, cccz, tsvetanovv, unforgiven, ctf\_sec
 
 ## Summary
 
@@ -218,6 +380,51 @@ and
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 
+**kiseln**
+
+Escalate for 27 USDC
+
+> Some ERC20 tokens don't support 0 value transfers
+
+There are no relevant tokens that revert on 0 value transfers. `LEND` is often provided as an example, however, it was discontinued in 2020 and is supposed to be migrated to AAVE https://docs.aave.com/faq/migration-and-staking. I'd say there is 0 chance this token is whitelisted as a valid bounty token by the protocol owners.
+
+I would consider `LEND` in the same category as any invalid/malicious token that can be added in a permissionless way, in which case this group of issues is a duplicate of #62 
+
+
+**sherlock-admin**
+
+ > Escalate for 27 USDC
+> 
+> > Some ERC20 tokens don't support 0 value transfers
+> 
+> There are no relevant tokens that revert on 0 value transfers. `LEND` is often provided as an example, however, it was discontinued in 2020 and is supposed to be migrated to AAVE https://docs.aave.com/faq/migration-and-staking. I'd say there is 0 chance this token is whitelisted as a valid bounty token by the protocol owners.
+> 
+> I would consider `LEND` in the same category as any invalid/malicious token that can be added in a permissionless way, in which case this group of issues is a duplicate of #62 
+> 
+
+You've created a valid escalation for 27 USDC!
+
+To remove the escalation from consideration: Delete your comment.
+To change the amount you've staked on this escalation: Edit your comment **(do not create a new comment)**.
+
+You may delete or edit your escalation comment anytime before the 48-hour escalation window closes. After that, the escalation becomes final.
+
+**Evert0x**
+
+Escalation rejected.
+
+Protocol signaled they were planning to use `any` token in this protocol, reverting on 0 transfer is uncommon but not unlikely to happen on a legit token.
+
+**sherlock-admin**
+
+> Escalation rejected.
+> 
+> Protocol signaled they were planning to use `any` token in this protocol, reverting on 0 transfer is uncommon but not unlikely to happen on a legit token.
+
+This issue's escalations have been rejected!
+
+Watsons who escalated this issue will have their escalation amount deducted from their next payout.
+
 
 
 # Issue H-5: Adversary can permanently break reward distribution for percentage tier bounties by funding bounty then refunding after competition closes 
@@ -225,7 +432,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/266 
 
 ## Found by 
-TrungOre, holyhansss, CodeFoxInc, Ruhum, ast3ros, XKET, cccz, 0xbepresent, 8olidity, libratus, Robert, yixxas, ltyu, seyni, unforgiven, ctf\_sec, 0x52, HonorLt
+TrungOre, XKET, chainNue, 0xbepresent, unforgiven, yixxas, jkoppel, libratus, Robert, HonorLt, 0x52, ctf\_sec, Ruhum, ltyu, CodeFoxInc, seyni, cccz, 8olidity, holyhansss
 
 ## Summary
 
@@ -273,12 +480,112 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112
 
 
 
-# Issue H-6: Refunds can be bricked by triggering OOG (out of gas) in DepositManager 
+# Issue H-6: Adversary can break any bounty they wish by depositing an NFT then refunding it 
+
+Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/263 
+
+## Found by 
+rvierdiiev, TrungOre, HollaDieWaldfee, bin2chen, Tricko, 0xbepresent, unforgiven, libratus, Robert, 0x52, HonorLt, usmannk, StErMi, cergyk, ctf\_sec, Ruhum, Jeiwan, GimelSec, cccz, 8olidity
+
+## Summary
+
+Refunding an NFT doesn't remove the nftDeposit so the contract will try to payout an NFT it doesn't have if the NFT has been refunded.
+
+## Vulnerability Detail
+
+https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/BountyCore.sol#L64-L93
+
+All bounties use BountyCore#refundDeposit to process refunds to user. This simply transfers the NFT back to the funder but leaves the nftDeposit. 
+
+https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/ClaimManager/Implementations/ClaimManagerV1.sol#L150-L165
+
+When any bounty is claimed it loops through nftDeposits and attempts to transfer an NFT for each one. The problem is that if an NFT has been refunded the deposit receipt will still exist but the contract won't have the NFT. The result is that all payouts will be permanently broken. 
+
+Submitting as high risk because when combined with refund locking methods it will result in all deposited tokens being stuck forever.
+
+## Impact
+
+Adversary can permanently break payouts on any bounty
+
+## Code Snippet
+
+https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/ClaimManager/Implementations/ClaimManagerV1.sol#L31-L67
+
+## Tool used
+
+Manual Review
+
+## Recommendation
+
+Remove the deposit receipt from nftDeposits when refunding NFT deposits
+
+## Discussion
+
+**FlacoJones**
+
+Valid. Will fix by removing nfts for now
+
+**FlacoJones**
+
+https://github.com/OpenQDev/OpenQ-Contracts/pull/113
+
+and 
+
+https://github.com/OpenQDev/OpenQ-Contracts/pull/114
+
+**kiseln**
+
+Escalate for 20 USDC
+
+This completely bricks payouts just like #62. Shouldn't it be high?
+
+**sherlock-admin**
+
+ > Escalate for 20 USDC
+> 
+> This completely bricks payouts just like #62. Shouldn't it be high?
+
+You've created a valid escalation for 20 USDC!
+
+To remove the escalation from consideration: Delete your comment.
+To change the amount you've staked on this escalation: Edit your comment **(do not create a new comment)**.
+
+You may delete or edit your escalation comment anytime before the 48-hour escalation window closes. After that, the escalation becomes final.
+
+**hrishibhat**
+
+Escalation accepted
+
+This issue is a valid high 
+
+**sherlock-admin**
+
+> Escalation accepted
+> 
+> This issue is a valid high
+
+This issue's escalations have been accepted!
+
+Contestants' payouts and scores will be updated according to the changes made on this issue.
+
+**sherlock-admin**
+
+> Escalation accepted
+> 
+> This issue is a valid high 
+
+This issue's escalations have been accepted!
+
+Contestants' payouts and scores will be updated according to the changes made on this issue.
+
+
+
+# Issue H-7: Refunds can be bricked by triggering OOG (out of gas) in DepositManager 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/77 
 
 ## Found by 
-Jeiwan, yixxas, seyni, 0x52, carrot, HollaDieWaldfee, holyhansss, chainNue, bin2chen, GimelSec, 0xdeadbeef, unforgiven, hake, HonorLt, joestakey, ak1, rvierdiiev, jkoppel, Atarpara, KingNFT, Robert, ctf\_sec, eyexploit, MyFDsYours, kiki\_dev, ltyu, imare, clems4ever, TrungOre
+rvierdiiev, eyexploit, TrungOre, 0xdeadbeef, MyFDsYours, joestakey, HollaDieWaldfee, chainNue, bin2chen, kiki\_dev, clems4ever, unforgiven, yixxas, jkoppel, hake, Robert, imare, HonorLt, 0x52, ak1, Atarpara, ctf\_sec, ltyu, seyni, Jeiwan, GimelSec, carrot, KingNFT, holyhansss
 
 ## Summary
 The `DepositManager` contract is in charge of refunding tokens from the individual bounties. This function ends up running a for loop over an unbounded array. This array can be made to be sufficiently large to exceed the block gas limit and cause out-of-gas errors and stop the processing of any refunds.
@@ -312,12 +619,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/117 and https://github.com/Open
 
 
 
-# Issue H-7: Bounties can be broken by funding them with malicious ERC20 tokens 
+# Issue H-8: Bounties can be broken by funding them with malicious ERC20 tokens 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/62 
 
 ## Found by 
-Jeiwan, 0xbepresent, whiteh4t9527, libratus, yixxas, 0x52, carrot, HollaDieWaldfee, csanuragjain, cccz, ck, bin2chen, GimelSec, 0xdeadbeef, dipp, unforgiven, slowfi, hake, HonorLt, joestakey, rvierdiiev, tsvetanovv, jkoppel, KingNFT, Robert, ctf\_sec, Tricko, oot2k, usmannk, CodeFoxInc, sinh3ck, XKET, kiki\_dev, imare, clems4ever, TrungOre
+rvierdiiev, oot2k, TrungOre, 0xdeadbeef, tsvetanovv, XKET, whiteh4t9527, csanuragjain, joestakey, HollaDieWaldfee, bin2chen, Tricko, 0xbepresent, kiki\_dev, clems4ever, yixxas, jkoppel, libratus, hake, Robert, imare, HonorLt, 0x52, usmannk, sinh3ck, ctf\_sec, slowfi, dipp, CodeFoxInc, Jeiwan, GimelSec, cccz, carrot, KingNFT
 
 ## Summary
 Any malicious user can fund a bounty contract with a malicious ERC20 contract and prevent winners from withdrawing their rewards.
@@ -446,7 +753,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/113 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/530 
 
 ## Found by 
-RaymondFam, Jeiwan, 0xbepresent, libratus, yixxas, carrot, HollaDieWaldfee, csanuragjain, bin2chen, 0xdeadbeef, unforgiven, hake, rvierdiiev, ast3ros, Breeje, CodeFoxInc, cergyk, Ruhum, XKET, kiki\_dev
+rvierdiiev, ast3ros, 0xdeadbeef, RaymondFam, XKET, csanuragjain, HollaDieWaldfee, bin2chen, 0xbepresent, kiki\_dev, unforgiven, Breeje, yixxas, hake, libratus, cergyk, Ruhum, CodeFoxInc, Jeiwan, carrot
 
 ## Summary
 Non-whitelisted tokens cannot be deposited to a bounty contract if too many whitelisted contracts were deposited.
@@ -481,172 +788,149 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/113
 
 
 
-# Issue M-2: Claimed amount of tokens will be computed incorrectly if rebasing token is used 
+# Issue M-2: when issuer set new winner by calling setTierWinner() code should reset invoice and supporting documents for that tier 
 
-Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/305 
+Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/297 
 
 ## Found by 
-ak1, ADM, \_\_141345\_\_, tsvetanovv, Avci, Breeje, libratus, yixxas, GimelSec, TrungOre, carrot
+unforgiven
 
 ## Summary
-Protocol wants to support all kinds of tokens, including rebasing tokens as noted in Sherlock's On-chain context guidelines. If rebasing tokens are used as payoutTokens for TieredPercentageBounty, users may either underclaim or overclaim dependant on whether token rebased up or down. One of the more popular rebasing token is stETH, with a 5 billion market cap currently.
+if invoice or supporting documents are required to receive the winning prize then tier winner should provide them. bounty issuer or oracle would set invoice and supporting document status of a tier by calling `setInvoiceComplete()` and `setSupportingDocumentsComplete()`. bounty issuer can set tier winners by calling `setTierWinner()` but code won't reset the status of the invoice and supporting documents when tier winner changes. a malicious winner can bypass invoice and supporting document check by this issue.
 
 ## Vulnerability Detail
-The first time a claim is made in a bounty, `closeCompetition()` is called to prevent any further funding of the bounty contract. `closeCompetition()` keeps track of the total balances of each token in the `fundingTotals[]` array at this point in time. However, claims are not all made in the same timestamp. A rebasing token can make subsequent claims that are made to be computed wrongly.
-
+if bounty issuer set invoice and supporting documents as required for the bounty winners in the tiered bounty, then tier winner should provide those and bounty issuer or off-chain oracle would set the status of the invoice and documents for that tier. but if issuer wants to change a tier winner and calls `setTierWinner()` code would changes the tier winner but won't reset the status of the invoice and supporting documents for the new winner. This is the `setTierWinner()` code in OpenQV1 and TieredBountyCore:
 ```solidity
-function closeCompetition() external onlyClaimManager {
-	require(
-		status == OpenQDefinitions.OPEN,
-		Errors.CONTRACT_ALREADY_CLOSED
-	);
+    function setTierWinner(
+        string calldata _bountyId,
+        uint256 _tier,
+        string calldata _winner
+    ) external {
+        IBounty bounty = getBounty(_bountyId);
+        require(msg.sender == bounty.issuer(), Errors.CALLER_NOT_ISSUER);
+        bounty.setTierWinner(_winner, _tier);
 
-	status = OpenQDefinitions.CLOSED;
-	bountyClosedTime = block.timestamp;
+        emit TierWinnerSelected(
+            address(bounty),
+            bounty.getTierWinners(),
+            new bytes(0),
+            VERSION_1
+        );
+    }
 
-	for (uint256 i = 0; i < getTokenAddresses().length; i++) {
-		address _tokenAddress = getTokenAddresses()[i];
-		fundingTotals[_tokenAddress] = getTokenBalance(_tokenAddress);
-	}
-}
+    function setTierWinner(string memory _winner, uint256 _tier)
+        external
+        onlyOpenQ
+    {
+        tierWinners[_tier] = _winner;
+    }
 ```
-
-`claimedBalance()` is calculated in this way. It uses the snapshot of the balance of the token and take a percentage based on `payoutSchedule`. Because rebasing token balances can adjust up or down, but `fundingTotals[]` remain constant, the amount claimed by users will be more than expected if token rebases down, and less than expected if token rebases up.
-
-```solidity
-uint256 claimedBalance = (payoutSchedule[_tier] *
-            fundingTotals[_tokenAddress]) / 100;
-```
-
+As you can see code only sets the `tierWinner[tier]` and won't reset `invoiceComplete[tier]` or `supportingDocumentsComplete[tier]` to false. This would cause an issue when issuer wants to change the tier winner. these are the steps that makes the issue:
+1. UserA creates tiered Bounty1 and set invoice and supporting documents as required for winners to claim their funds.
+2. UserA would set User1 as winner of tier 1 and User1 completed the invoice and oracle would set `invoiceComplete[1] = true`.
+3. UserA would change tier winner to User2 because User1 didn't complete supporting documents phase. now User2 is winner of tier 1 and `invoiceComplete[1]` is true and User2 only required to complete supporting documents and User2 would receive the win prize without completing the invoice phase.
 
 ## Impact
-User will either overclaim, which results in some other user not being able to claim their rightful amount, or underclaim tokens themselves.
+malicious winner can bypass invoice and supporting document check when they are required if he is replace as another person to be winner of a tier.
 
 ## Code Snippet
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/TieredPercentageBountyV1.sol#L116
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/TieredPercentageBountyV1.sol#L134
+https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/TieredBountyCore.sol#L59-L64
 
 ## Tool used
-
 Manual Review
 
 ## Recommendation
-In order to add support for rebasing tokens, consider checking the new balance right before a claim is made
-
-
-## Discussion
-
-**FlacoJones**
-
-Will fix with explicit token whitelist
-
-**FlacoJones**
-
-and removing crowdfunding
-
-**FlacoJones**
-
-https://github.com/OpenQDev/OpenQ-Contracts/pull/112
-
-
-
-# Issue M-3: [Medium] - Funds locked if bounty is funded with both ether and erc20 tokens at the same time 
-
-Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/288 
-
-## Found by 
-Jeiwan, 0xbepresent, peanuts, yixxas, 0x52, carrot, HollaDieWaldfee, caventa, nicobevi, 8olidity, HonorLt, Bauer, joestakey, rvierdiiev, ADM, Aymen0909, ctf\_sec, Tricko, usmannk, eyexploit, Ruhum, clems4ever
-
-## Summary
-When a bounty is created. Next step is to fund such bounty with the rewards by the creator. To do that, a call to `fundBountyToken()` in [DepositManagerV1.sol](https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/DepositManager/Implementations/DepositManagerV1.sol#L36-L74) must be done. This function allows both kind of funds, native tokens (eth) sending value to the transaction, or any allowed token through `_tokenAddress` (previously whitelisted by the protocol).
-Internally, the function `receiveFunds()` is called for that particular bounty.
-
-## Vulnerability Detail
-If for some reason the bounty creator calls this method sending both ether and a valid `_tokenAddress` then the ether sent will be lost.
-In the `recieveFunds()` function body we find this condition:
-```solidity
-        uint256 volumeReceived;
-        if (_tokenAddress == address(0)) {
-            volumeReceived = msg.value;
-        } else {
-            volumeReceived = _receiveERC20(_tokenAddress, _funder, _volume);
-        }
-```
-
-In our case, `_tokenAddress` is a valid token so the if condition is not fullfilled and the volume received will be only the token amount. Locking the ether since the deposit will be recorded just for the tokens sent.
-
-There's a function `getLockedFunds()` that looks like a way to get such locked ether. But because these funds are not being recorded as part of a deposit, this function won't work.
-
-## Impact
-Ether locked on the bounty contract.
-
-## Code Snippet
-[DepositManagerV1.sol#L36-L74](https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/DepositManager/Implementations/DepositManagerV1.sol#L36-L74)
-
-[BountyCore.sol#L21-L58](https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/BountyCore.sol#L21-L58)
-
-
-## Tool used
-
-Manual Review
-
-## Recommendation
-The recommendation is to validate that, in case that a `_tokenAddress` is sent, then there is no ether sent too.
-
-```diff
-        uint256 volumeReceived;
-        if (_tokenAddress == address(0)) {
-            volumeReceived = msg.value;
-        } else {
-+            if (msg.value != 0) {
-+                  revert EtherSent();
-+            }
-            volumeReceived = _receiveERC20(_tokenAddress, _funder, _volume);
-        }
-```
+set status of the `invoiceComplete[tier]` or `supportingDocumentsComplete[tier]` to false in `setTierWinner()` function.
 
 ## Discussion
 
-**FlacoJones**
+**0xunforgiven**
 
-Good find! will fix
+Escalate for 31 USDC
 
-**FlacoJones**
+my issue is not duplicate of #425.
 
-https://github.com/OpenQDev/OpenQ-Contracts/pull/123
+issue #425 is: "array lists `invoiceCompleteClaimIds[]` and `supportingDocumentsCompleteClaimIds[]` can contain claimIds that are incomplete". that is about those array list containing extra values and the issue has no serious impact because code checks mappings to check invoice and docuements status.
+
+my issue explains that when a tier winner gets changed (Bounty issuer change tier1 winner from User1 to User2 for any reason) code doesn't reset the values in the mappings `invoiceComplete[tier1]` or `supportingDocumentsComplete[tier1]`. so values in those mappings would shoe wrong values for the new tier1 winner. the POC shows how the issue happens:
+
+> 1. UserA creates tiered Bounty1 and set invoice and supporting documents as required for winners to claim their funds.
+> 2. UserA would set User1 as winner of tier 1 and User1 completed the invoice and oracle would set invoiceComplete[1] = true.
+> 3. UserA would change tier winner to User2 because User1 didn't complete supporting documents phase. now User2 is winner of tier 1 and invoiceComplete[1] is true and User2 only required to complete supporting documents and User2 would receive the win prize without completing the invoice phase.
+
+
+**sherlock-admin**
+
+ > Escalate for 31 USDC
+> 
+> my issue is not duplicate of #425.
+> 
+> issue #425 is: "array lists `invoiceCompleteClaimIds[]` and `supportingDocumentsCompleteClaimIds[]` can contain claimIds that are incomplete". that is about those array list containing extra values and the issue has no serious impact because code checks mappings to check invoice and docuements status.
+> 
+> my issue explains that when a tier winner gets changed (Bounty issuer change tier1 winner from User1 to User2 for any reason) code doesn't reset the values in the mappings `invoiceComplete[tier1]` or `supportingDocumentsComplete[tier1]`. so values in those mappings would shoe wrong values for the new tier1 winner. the POC shows how the issue happens:
+> 
+> > 1. UserA creates tiered Bounty1 and set invoice and supporting documents as required for winners to claim their funds.
+> > 2. UserA would set User1 as winner of tier 1 and User1 completed the invoice and oracle would set invoiceComplete[1] = true.
+> > 3. UserA would change tier winner to User2 because User1 didn't complete supporting documents phase. now User2 is winner of tier 1 and invoiceComplete[1] is true and User2 only required to complete supporting documents and User2 would receive the win prize without completing the invoice phase.
+> 
+
+You've created a valid escalation for 31 USDC!
+
+To remove the escalation from consideration: Delete your comment.
+To change the amount you've staked on this escalation: Edit your comment **(do not create a new comment)**.
+
+You may delete or edit your escalation comment anytime before the 48-hour escalation window closes. After that, the escalation becomes final.
+
+**hrishibhat**
+
+Escalation accepted
+
+Not a valid duplicate of #425 and a valid issue 
+`_eligibleToClaimAtomicBounty` would end up validating a user without completing the invoice phase as shown. 
+
+**sherlock-admin**
+
+> Escalation accepted
+> 
+> Not a valid duplicate of #425 and a valid issue 
+> `_eligibleToClaimAtomicBounty` would end up validating a user without completing the invoice phase as shown. 
+
+This issue's escalations have been accepted!
+
+Contestants' payouts and scores will be updated according to the changes made on this issue.
 
 
 
-# Issue M-4: Adversary can break any bounty they wish by depositing an NFT then refunding it 
+# Issue M-3: Adversary can block NFT distribution on tiered bounties by assigning the NFTs to unused tiers 
 
-Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/263 
+Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/264 
 
 ## Found by 
-TrungOre, cergyk, rvierdiiev, usmannk, Ruhum, cccz, 8olidity, libratus, StErMi, Robert, bin2chen, unforgiven, 0x52, HollaDieWaldfee, Tricko, HonorLt
+0x52
 
 ## Summary
 
-Refunding an NFT doesn't remove the nftDeposit so the contract will try to payout an NFT it doesn't have if the NFT has been refunded.
+Bounties limit the number of NFT deposits to five. An adversary can block adding NFTs by assigning NFTs to tiers that don't exist.
 
 ## Vulnerability Detail
 
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/BountyCore.sol#L64-L93
+https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/DepositManager/Implementations/DepositManagerV1.sol#L113-L131
 
-All bounties use BountyCore#refundDeposit to process refunds to user. This simply transfers the NFT back to the funder but leaves the nftDeposit. 
+DepositMangerV1#fundBountyNFT passes the user supplied _data to TieredBountyCore#receiveNft
 
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/ClaimManager/Implementations/ClaimManagerV1.sol#L150-L165
+https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/TieredBountyCore.sol#L41-L42
 
-When any bounty is claimed it loops through nftDeposits and attempts to transfer an NFT for each one. The problem is that if an NFT has been refunded the deposit receipt will still exist but the contract won't have the NFT. The result is that all payouts will be permanently broken. 
+_data is decoded and stored in _tier allowing the user to specify any tier they wish.
 
-Submitting as high risk because when combined with refund locking methods it will result in all deposited tokens being stuck forever.
+An adversary can abuse this fill all eligible nft deposit slots with nfts that can't be claimed by any tier. This allows them to effectively disable nft prizes for any tiered bounty. Using a large enough tier will make it impossible to ever claim the nfts because it would cost too much gas to set a large enough payout schedule
 
 ## Impact
 
-Adversary can permanently break payouts on any bounty
+Adversary can effectively disable nft prizes for any tiered bounty 
 
 ## Code Snippet
 
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/ClaimManager/Implementations/ClaimManagerV1.sol#L31-L67
+https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/TieredBountyCore.sol#L18-L48
 
 ## Tool used
 
@@ -654,30 +938,30 @@ Manual Review
 
 ## Recommendation
 
-Remove the deposit receipt from nftDeposits when refunding NFT deposits
+TieredBountyCore#receiveNFT should check that specified tier is a within bound (i.e. by comparing it to the length of tierWinners)
+
 
 ## Discussion
 
-**FlacoJones**
+**IAm0x52**
 
-Valid. Will fix by removing nfts for now
+Not a dupe of #261 and a separate issue. This discusses supplying NFTs to the incorrect tiers of tiered bounties
 
-**FlacoJones**
+**hrishibhat**
 
-https://github.com/OpenQDev/OpenQ-Contracts/pull/113
-
-and 
-
-https://github.com/OpenQDev/OpenQ-Contracts/pull/114
+This issue was incorrectly duped with #261 and was missed during the processing of the initial results. 
+This issue is a valid medium, and also unique.
+As mentioned above, the attacker can fill tiers large enough so that it is not possible to set the payout schedule for any tier due to out of gas. 
 
 
 
-# Issue M-5: Adversary can break NFT distribution by depositing up to max then refunding all of them 
+
+# Issue M-4: Adversary can break NFT distribution by depositing up to max then refunding all of them 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/262 
 
 ## Found by 
-caventa, Jeiwan, 0xmuxyz, jkoppel, Ruhum, unforgiven, libratus, kiki\_dev, bin2chen, GimelSec, clems4ever, dipp, ctf\_sec, 0x52, HollaDieWaldfee, HonorLt
+HollaDieWaldfee, Jeiwan, 0x52, HonorLt, GimelSec, bin2chen, caventa, kiki\_dev, clems4ever, unforgiven, Ruhum, 0xmuxyz, dipp, jkoppel, libratus
 
 ## Summary
 
@@ -725,61 +1009,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/114
 
 
 
-# Issue M-6: OngoingBountyV1 is incompatible with NFTs but still accepts NFT deposits 
-
-Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/261 
-
-## Found by 
-csanuragjain, Jeiwan, joestakey, 0xmuxyz, cergyk, HollaDieWaldfee, Ruhum, cccz, libratus, kiki\_dev, seyni, GimelSec, dipp, ctf\_sec, 0x52, carrot, StErMi
-
-## Summary
-
-OngoingBountyV1 is incompatible with NFTs but still accepts NFT deposits
-
-## Vulnerability Detail
-
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/Bounty/Implementations/OngoingBountyV1.sol#L133-L160
-
-OngoingBountyV1 is designed to receive NFTs and NFTs can be deposited to it via DepositManager#fundBountyNFT
-
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/ClaimManager/Implementations/ClaimManagerV1.sol#L173-L197
-
-However when ongoing bounties are claimed they have no method to distribute the NFTs that are deposited.
-
-## Impact
-
-OngoingBountyV1 has no way to distribute NFTs
-
-## Code Snippet
-
-https://github.com/sherlock-audit/2023-02-openq/blob/main/contracts/ClaimManager/Implementations/ClaimManagerV1.sol#L173-L197
-
-## Tool used
-
-Manual Review
-
-## Recommendation
-
-Change _claimOngoingBounty to allow it to distribute NFTs
-
-## Discussion
-
-**FlacoJones**
-
-Will remove Ongoing for now
-
-**FlacoJones**
-
-https://github.com/OpenQDev/OpenQ-Contracts/pull/112
-
-
-
-# Issue M-7: Refunding logic with multiple deposits is first mover take all 
+# Issue M-5: Refunding logic with multiple deposits is first mover take all 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/257 
 
 ## Found by 
-Jeiwan, joestakey, Ruhum, chaduke, libratus, yixxas, ltyu, ctf\_sec, 0x52, HollaDieWaldfee
+joestakey, HollaDieWaldfee, Jeiwan, 0x52, HonorLt, MyFDsYours, TrungOre, unforgiven, ctf\_sec, Ruhum, chaduke, yixxas, ltyu, libratus
 
 ## Summary
 
@@ -824,12 +1059,12 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 
 
 
-# Issue M-8: Resizing the payout schedule with less items might revert 
+# Issue M-6: Resizing the payout schedule with less items might revert 
 
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/244 
 
 ## Found by 
-caventa, TrungOre, Jeiwan, ak1, rvierdiiev, usmannk, XKET, ck, ArcAnya, bin2chen, GimelSec, clems4ever, unforgiven, 0x52, StErMi, HonorLt
+rvierdiiev, Jeiwan, HonorLt, 0x52, ak1, GimelSec, usmannk, TrungOre, bin2chen, caventa, StErMi, clems4ever, ck, unforgiven, ArcAnya, XKET
 
 ## Summary
 
