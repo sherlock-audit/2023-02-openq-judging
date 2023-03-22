@@ -3,7 +3,7 @@
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/362 
 
 ## Found by 
-Robert, 0x52, GimelSec, TrungOre, bin2chen, 0xdeadbeef, clems4ever, KingNFT
+0xdeadbeef, Robert, GimelSec, bin2chen, TrungOre, KingNFT, clems4ever, 0x52
 
 ## Summary
 
@@ -60,7 +60,7 @@ Funder == Issuer: https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/352 
 
 ## Found by 
-Robert, 0x52, ck, ctf\_sec, XKET, ltyu
+ctf\_sec, Robert, XKET, ltyu, ck, 0x52
 
 ## Summary
 
@@ -142,7 +142,7 @@ Watsons who escalated this issue will have their escalation amount deducted from
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/275 
 
 ## Found by 
-Robert, 0x52, bin2chen, ast3ros, unforgiven, jkoppel
+jkoppel, Robert, bin2chen, unforgiven, ast3ros, 0x52
 
 ## Summary
 
@@ -323,7 +323,7 @@ Watsons who escalated this issue will have their escalation amount deducted from
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/267 
 
 ## Found by 
-rvierdiiev, 0x52, bin2chen, TrungOre, cccz, tsvetanovv, unforgiven, ctf\_sec
+ctf\_sec, cccz, bin2chen, TrungOre, rvierdiiev, unforgiven, tsvetanovv, 0x52
 
 ## Summary
 
@@ -432,7 +432,7 @@ Watsons who escalated this issue will have their escalation amount deducted from
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/266 
 
 ## Found by 
-TrungOre, XKET, chainNue, 0xbepresent, unforgiven, yixxas, jkoppel, libratus, Robert, HonorLt, 0x52, ctf\_sec, Ruhum, ltyu, CodeFoxInc, seyni, cccz, 8olidity, holyhansss
+CodeFoxInc, yixxas, HonorLt, cccz, 0x52, 0xbepresent, ctf\_sec, Robert, unforgiven, libratus, jkoppel, TrungOre, ltyu, seyni, chainNue, holyhansss, Ruhum, XKET, 8olidity
 
 ## Summary
 
@@ -485,7 +485,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/263 
 
 ## Found by 
-rvierdiiev, TrungOre, HollaDieWaldfee, bin2chen, Tricko, 0xbepresent, unforgiven, libratus, Robert, 0x52, HonorLt, usmannk, StErMi, cergyk, ctf\_sec, Ruhum, Jeiwan, GimelSec, cccz, 8olidity
+Tricko, GimelSec, HonorLt, Jeiwan, cccz, 0x52, 0xbepresent, ctf\_sec, Robert, unforgiven, libratus, HollaDieWaldfee, StErMi, bin2chen, TrungOre, rvierdiiev, usmannk, cergyk, Ruhum, 8olidity
 
 ## Summary
 
@@ -585,7 +585,7 @@ Contestants' payouts and scores will be updated according to the changes made on
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/77 
 
 ## Found by 
-rvierdiiev, eyexploit, TrungOre, 0xdeadbeef, MyFDsYours, joestakey, HollaDieWaldfee, chainNue, bin2chen, kiki\_dev, clems4ever, unforgiven, yixxas, jkoppel, hake, Robert, imare, HonorLt, 0x52, ak1, Atarpara, ctf\_sec, ltyu, seyni, Jeiwan, GimelSec, carrot, KingNFT, holyhansss
+GimelSec, yixxas, HonorLt, joestakey, eyexploit, KingNFT, Jeiwan, ak1, 0x52, ctf\_sec, hake, Robert, unforgiven, HollaDieWaldfee, jkoppel, bin2chen, TrungOre, rvierdiiev, ltyu, seyni, imare, carrot, clems4ever, chainNue, 0xdeadbeef, holyhansss, Atarpara, MyFDsYours, kiki\_dev
 
 ## Summary
 The `DepositManager` contract is in charge of refunding tokens from the individual bounties. This function ends up running a for loop over an unbounded array. This array can be made to be sufficiently large to exceed the block gas limit and cause out-of-gas errors and stop the processing of any refunds.
@@ -624,7 +624,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/117 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/62 
 
 ## Found by 
-rvierdiiev, oot2k, TrungOre, 0xdeadbeef, tsvetanovv, XKET, whiteh4t9527, csanuragjain, joestakey, HollaDieWaldfee, bin2chen, Tricko, 0xbepresent, kiki\_dev, clems4ever, yixxas, jkoppel, libratus, hake, Robert, imare, HonorLt, 0x52, usmannk, sinh3ck, ctf\_sec, slowfi, dipp, CodeFoxInc, Jeiwan, GimelSec, cccz, carrot, KingNFT
+Tricko, GimelSec, yixxas, CodeFoxInc, HonorLt, joestakey, KingNFT, dipp, Jeiwan, tsvetanovv, 0x52, cccz, 0xbepresent, ctf\_sec, hake, Robert, csanuragjain, libratus, slowfi, HollaDieWaldfee, jkoppel, whiteh4t9527, bin2chen, TrungOre, rvierdiiev, imare, carrot, clems4ever, 0xdeadbeef, usmannk, oot2k, sinh3ck, XKET, kiki\_dev
 
 ## Summary
 Any malicious user can fund a bounty contract with a malicious ERC20 contract and prevent winners from withdrawing their rewards.
@@ -753,7 +753,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/113 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/530 
 
 ## Found by 
-rvierdiiev, ast3ros, 0xdeadbeef, RaymondFam, XKET, csanuragjain, HollaDieWaldfee, bin2chen, 0xbepresent, kiki\_dev, unforgiven, Breeje, yixxas, hake, libratus, cergyk, Ruhum, CodeFoxInc, Jeiwan, carrot
+CodeFoxInc, yixxas, ast3ros, Jeiwan, Breeje, 0xbepresent, RaymondFam, hake, csanuragjain, unforgiven, libratus, HollaDieWaldfee, bin2chen, rvierdiiev, carrot, 0xdeadbeef, cergyk, Ruhum, XKET, kiki\_dev
 
 ## Summary
 Non-whitelisted tokens cannot be deposited to a bounty contract if too many whitelisted contracts were deposited.
@@ -961,7 +961,7 @@ As mentioned above, the attacker can fill tiers large enough so that it is not p
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/262 
 
 ## Found by 
-HollaDieWaldfee, Jeiwan, 0x52, HonorLt, GimelSec, bin2chen, caventa, kiki\_dev, clems4ever, unforgiven, Ruhum, 0xmuxyz, dipp, jkoppel, libratus
+jkoppel, GimelSec, caventa, bin2chen, HonorLt, unforgiven, 0xmuxyz, Ruhum, libratus, dipp, Jeiwan, kiki\_dev, clems4ever, 0x52, HollaDieWaldfee
 
 ## Summary
 
@@ -1014,7 +1014,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/114
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/257 
 
 ## Found by 
-joestakey, HollaDieWaldfee, Jeiwan, 0x52, HonorLt, MyFDsYours, TrungOre, unforgiven, ctf\_sec, Ruhum, chaduke, yixxas, ltyu, libratus
+ctf\_sec, yixxas, HonorLt, joestakey, unforgiven, TrungOre, chaduke, MyFDsYours, Ruhum, libratus, ltyu, Jeiwan, 0x52, HollaDieWaldfee
 
 ## Summary
 
@@ -1064,7 +1064,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/244 
 
 ## Found by 
-rvierdiiev, Jeiwan, HonorLt, 0x52, ak1, GimelSec, usmannk, TrungOre, bin2chen, caventa, StErMi, clems4ever, ck, unforgiven, ArcAnya, XKET
+usmannk, ck, StErMi, GimelSec, caventa, bin2chen, HonorLt, TrungOre, unforgiven, rvierdiiev, ArcAnya, XKET, Jeiwan, ak1, clems4ever, 0x52
 
 ## Summary
 
