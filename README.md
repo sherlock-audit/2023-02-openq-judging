@@ -3,7 +3,7 @@
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/362 
 
 ## Found by 
-0xdeadbeef, Robert, GimelSec, bin2chen, TrungOre, KingNFT, clems4ever, 0x52
+GimelSec, clems4ever, KingNFT, Robert, 0x52, bin2chen, 0xdeadbeef, TrungOre
 
 ## Summary
 
@@ -53,6 +53,17 @@ Overflow check: https://github.com/OpenQDev/OpenQ-Contracts/pull/129
 
 Funder == Issuer: https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #129:
+
+> Fix looks good. _expiraiton is now limited to prevent overflows and trapped funds
+
+Lead Senior Watson comment on PR #116:
+
+> Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
+
 
 
 # Issue H-2: Adversary can brick bounty payouts by calling fundBountyToken but funding it with an ERC721 token instead 
@@ -60,7 +71,7 @@ Funder == Issuer: https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/352 
 
 ## Found by 
-ctf\_sec, Robert, XKET, ltyu, ck, 0x52
+XKET, ck, Robert, 0x52, ltyu, ctf\_sec
 
 ## Summary
 
@@ -135,6 +146,24 @@ This issue's escalations have been rejected!
 
 Watsons who escalated this issue will have their escalation amount deducted from their next payout.
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #113:
+
+> Changes look good.
+> 
+> Token requirement has been simplified to just a whitelist. It makes the rest changes to support this revision. tokenAddressLimitReach method has been removed from DepositManagerV1. _tokenAddressLimit has been removed from TokenWhitelist constructor. TOKEN_ADDRESS_LIMIT has been removed along with it's setter. Tests have been updated to accommodate changes.
+
+Lead Senior Watson comment on PR #116:
+
+> Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
+Lead Senior Watson comment on PR #114:
+
+> Changes look good. Removes all logic from bounties. Seems to have gotten all related code. Will keep my out for any that was missed on when checking the rest of the PRs
+
+
+
 
 
 # Issue H-3: Tier winner can steal excess funds from tiered percentage bounty if any deposits are expired 
@@ -142,7 +171,7 @@ Watsons who escalated this issue will have their escalation amount deducted from
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/275 
 
 ## Found by 
-jkoppel, Robert, bin2chen, unforgiven, ast3ros, 0x52
+ast3ros, Robert, 0x52, unforgiven, jkoppel, bin2chen
 
 ## Summary
 
@@ -316,6 +345,16 @@ This issue's escalations have been rejected!
 
 Watsons who escalated this issue will have their escalation amount deducted from their next payout.
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #112:
+
+> Looks like you got everything. Will keep my eye out when reviewing the rest of the PRs for anything that might have been missed.
+
+Lead Senior Watson comment on PR #117:
+
+> Changes look good. The refund logic has been simplified to match the newly simplified funding logic.
+
 
 
 # Issue H-4: Adversary can permanently break percentage tier bounties by funding certain ERC20 tokens then refunding 
@@ -323,7 +362,7 @@ Watsons who escalated this issue will have their escalation amount deducted from
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/267 
 
 ## Found by 
-ctf\_sec, cccz, bin2chen, TrungOre, rvierdiiev, unforgiven, tsvetanovv, 0x52
+tsvetanovv, 0x52, unforgiven, rvierdiiev, bin2chen, TrungOre, ctf\_sec, cccz
 
 ## Summary
 
@@ -425,6 +464,22 @@ This issue's escalations have been rejected!
 
 Watsons who escalated this issue will have their escalation amount deducted from their next payout.
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #112:
+
+Looks like you got everything. Will keep my eye out when reviewing the rest of the PRs for anything that might have been missed
+
+Lead Senior Watson comment on PR #113:
+
+Changes look good.
+
+Token requirement has been simplified to just a whitelist. It makes the rest changes to support this revision. tokenAddressLimitReach method has been removed from DepositManagerV1. _tokenAddressLimit has been removed from TokenWhitelist constructor. TOKEN_ADDRESS_LIMIT has been removed along with it's setter. Tests have been updated to accommodate changes.
+
+Lead Senior Watson comment on PR #116:
+
+Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
 
 
 # Issue H-5: Adversary can permanently break reward distribution for percentage tier bounties by funding bounty then refunding after competition closes 
@@ -432,7 +487,7 @@ Watsons who escalated this issue will have their escalation amount deducted from
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/266 
 
 ## Found by 
-CodeFoxInc, yixxas, HonorLt, cccz, 0x52, 0xbepresent, ctf\_sec, Robert, unforgiven, libratus, jkoppel, TrungOre, ltyu, seyni, chainNue, holyhansss, Ruhum, XKET, 8olidity
+8olidity, 0x52, HonorLt, unforgiven, chainNue, 0xbepresent, libratus, CodeFoxInc, XKET, Ruhum, seyni, Robert, ltyu, jkoppel, holyhansss, TrungOre, yixxas, ctf\_sec, cccz
 
 ## Summary
 
@@ -478,6 +533,12 @@ Valid. Will fix by removing this contract for now.
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/112
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #112:
+
+> Looks like you got everything. Will keep my eye out when reviewing the rest of the PRs for anything that might have been missed. 
+
 
 
 # Issue H-6: Adversary can break any bounty they wish by depositing an NFT then refunding it 
@@ -485,7 +546,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/112
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/263 
 
 ## Found by 
-Tricko, GimelSec, HonorLt, Jeiwan, cccz, 0x52, 0xbepresent, ctf\_sec, Robert, unforgiven, libratus, HollaDieWaldfee, StErMi, bin2chen, TrungOre, rvierdiiev, usmannk, cergyk, Ruhum, 8olidity
+8olidity, HollaDieWaldfee, 0x52, HonorLt, unforgiven, rvierdiiev, GimelSec, StErMi, Jeiwan, 0xbepresent, libratus, cergyk, Ruhum, Robert, bin2chen, usmannk, TrungOre, Tricko, ctf\_sec, cccz
 
 ## Summary
 
@@ -578,6 +639,20 @@ This issue's escalations have been accepted!
 
 Contestants' payouts and scores will be updated according to the changes made on this issue.
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #113:
+
+> Changes look good.
+> 
+> Token requirement has been simplified to just a whitelist. It makes the rest changes to support this revision. tokenAddressLimitReach method has been removed from DepositManagerV1. _tokenAddressLimit has been removed from TokenWhitelist constructor. TOKEN_ADDRESS_LIMIT has been removed along with it's setter. Tests have been updated to accommodate changes.
+
+Lead Senior Watson comment on PR #114:
+
+> Changes look good. Removes all logic from bounties. Seems to have gotten all related code. Will keep my out for any that was missed on when checking the rest of the PRs.
+
+
+
 
 
 # Issue H-7: Refunds can be bricked by triggering OOG (out of gas) in DepositManager 
@@ -585,7 +660,7 @@ Contestants' payouts and scores will be updated according to the changes made on
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/77 
 
 ## Found by 
-GimelSec, yixxas, HonorLt, joestakey, eyexploit, KingNFT, Jeiwan, ak1, 0x52, ctf\_sec, hake, Robert, unforgiven, HollaDieWaldfee, jkoppel, bin2chen, TrungOre, rvierdiiev, ltyu, seyni, imare, carrot, clems4ever, chainNue, 0xdeadbeef, holyhansss, Atarpara, MyFDsYours, kiki\_dev
+clems4ever, HollaDieWaldfee, 0x52, HonorLt, unforgiven, rvierdiiev, chainNue, GimelSec, Jeiwan, ak1, seyni, kiki\_dev, Robert, KingNFT, eyexploit, carrot, ltyu, jkoppel, bin2chen, holyhansss, 0xdeadbeef, TrungOre, hake, yixxas, MyFDsYours, Atarpara, joestakey, imare, ctf\_sec
 
 ## Summary
 The `DepositManager` contract is in charge of refunding tokens from the individual bounties. This function ends up running a for loop over an unbounded array. This array can be made to be sufficiently large to exceed the block gas limit and cause out-of-gas errors and stop the processing of any refunds.
@@ -617,6 +692,16 @@ Confirmed. Will fix by requiring funder == issuer and implementing a simple depo
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/117 and https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #116: 
+
+> Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
+Lead Senior Watson comment on PR #117:
+
+> Changes look good. The refund logic has been simplified to match the newly simplified funding logic.
+
 
 
 # Issue H-8: Bounties can be broken by funding them with malicious ERC20 tokens 
@@ -624,7 +709,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/117 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/62 
 
 ## Found by 
-Tricko, GimelSec, yixxas, CodeFoxInc, HonorLt, joestakey, KingNFT, dipp, Jeiwan, tsvetanovv, 0x52, cccz, 0xbepresent, ctf\_sec, hake, Robert, csanuragjain, libratus, slowfi, HollaDieWaldfee, jkoppel, whiteh4t9527, bin2chen, TrungOre, rvierdiiev, imare, carrot, clems4ever, 0xdeadbeef, usmannk, oot2k, sinh3ck, XKET, kiki\_dev
+clems4ever, HollaDieWaldfee, 0x52, HonorLt, rvierdiiev, oot2k, GimelSec, Jeiwan, slowfi, 0xbepresent, libratus, sinh3ck, dipp, whiteh4t9527, XKET, CodeFoxInc, csanuragjain, KingNFT, kiki\_dev, Robert, carrot, jkoppel, bin2chen, usmannk, TrungOre, 0xdeadbeef, hake, yixxas, tsvetanovv, joestakey, Tricko, imare, ctf\_sec, cccz
 
 ## Summary
 Any malicious user can fund a bounty contract with a malicious ERC20 contract and prevent winners from withdrawing their rewards.
@@ -746,6 +831,18 @@ Will fix by implementing an explicity token whitelist
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/113 and https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #113: 
+
+> Changes look good.
+> 
+> Token requirement has been simplified to just a whitelist. It makes the rest changes to support this revision. tokenAddressLimitReach method has been removed from DepositManagerV1. _tokenAddressLimit has been removed from TokenWhitelist constructor. TOKEN_ADDRESS_LIMIT has been removed along with it's setter. Tests have been updated to accommodate changes.
+
+Lead Senior Watson comment on PR #116: 
+
+> Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
 
 
 # Issue M-1: Non-whitelisted tokens cannot be added if the limit of token addresses is filled with whitelisted ones 
@@ -753,7 +850,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/113 and https://github.com/Open
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/530 
 
 ## Found by 
-CodeFoxInc, yixxas, ast3ros, Jeiwan, Breeje, 0xbepresent, RaymondFam, hake, csanuragjain, unforgiven, libratus, HollaDieWaldfee, bin2chen, rvierdiiev, carrot, 0xdeadbeef, cergyk, Ruhum, XKET, kiki\_dev
+HollaDieWaldfee, unforgiven, rvierdiiev, Jeiwan, 0xbepresent, RaymondFam, libratus, cergyk, CodeFoxInc, XKET, csanuragjain, Ruhum, Breeje, ast3ros, kiki\_dev, carrot, bin2chen, 0xdeadbeef, hake, yixxas
 
 ## Summary
 Non-whitelisted tokens cannot be deposited to a bounty contract if too many whitelisted contracts were deposited.
@@ -785,6 +882,14 @@ We are going to remove the ability to fund with an arbitrary ERC20 - removing th
 **FlacoJones**
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/113
+
+**jacksanford1**
+
+Lead Senior Watson comment on PR #113:
+
+> Changes look good.
+> 
+> Token requirement has been simplified to just a whitelist. It makes the rest changes to support this revision. tokenAddressLimitReach method has been removed from DepositManagerV1. _tokenAddressLimit has been removed from TokenWhitelist constructor. TOKEN_ADDRESS_LIMIT has been removed along with it's setter. Tests have been updated to accommodate changes.
 
 
 
@@ -899,6 +1004,16 @@ This issue's escalations have been accepted!
 
 Contestants' payouts and scores will be updated according to the changes made on this issue.
 
+**jacksanford1**
+
+Comment from Protocol Team:
+
+> I agree it would be better form to reset associated tiers documents + invoice to false if a tier winner is overwritten, but for now the bounty admin is a trusted party, and can always manually reset the tier afterwards.
+> 
+> I don't think this needs a fix at the moment
+
+Classifying this issue as "Won't Fix."
+
 
 
 # Issue M-3: Adversary can block NFT distribution on tiered bounties by assigning the NFTs to unused tiers 
@@ -954,6 +1069,14 @@ This issue is a valid medium, and also unique.
 As mentioned above, the attacker can fill tiers large enough so that it is not possible to set the payout schedule for any tier due to out of gas. 
 
 
+**jacksanford1**
+
+From Protocol Team:
+
+> We no longer have NFT funding at all, so [this issue is] no longer relevant.
+
+Classifying this issue as "Won't Fix."
+
 
 
 # Issue M-4: Adversary can break NFT distribution by depositing up to max then refunding all of them 
@@ -961,7 +1084,7 @@ As mentioned above, the attacker can fill tiers large enough so that it is not p
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/262 
 
 ## Found by 
-jkoppel, GimelSec, caventa, bin2chen, HonorLt, unforgiven, 0xmuxyz, Ruhum, libratus, dipp, Jeiwan, kiki\_dev, clems4ever, 0x52, HollaDieWaldfee
+GimelSec, dipp, caventa, clems4ever, HollaDieWaldfee, Ruhum, Jeiwan, kiki\_dev, 0x52, HonorLt, unforgiven, jkoppel, bin2chen, 0xmuxyz, libratus
 
 ## Summary
 
@@ -1007,6 +1130,38 @@ and
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/114
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #113: 
+
+> Changes look good.
+> 
+> Token requirement has been simplified to just a whitelist. It makes the rest changes to support this revision. tokenAddressLimitReach method has been removed from DepositManagerV1. _tokenAddressLimit has been removed from TokenWhitelist constructor. TOKEN_ADDRESS_LIMIT has been removed along with it's setter. Tests have been updated to accommodate changes.
+
+Lead Senior Watson comment on PR #114: 
+
+> Changes look good. Removes all logic from bounties. Seems to have gotten all related code. Will keep my out for any that was missed on when checking the rest of the PRs
+
+Lead Senior Watson comment on PR #116: 
+
+> Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
+**jacksanford1**
+
+Lead Senior Watson comment on PR #113: 
+
+> Changes look good.
+> 
+> Token requirement has been simplified to just a whitelist. It makes the rest changes to support this revision. tokenAddressLimitReach method has been removed from DepositManagerV1. _tokenAddressLimit has been removed from TokenWhitelist constructor. TOKEN_ADDRESS_LIMIT has been removed along with it's setter. Tests have been updated to accommodate changes.
+
+Lead Senior Watson comment on PR #114: 
+
+> Changes look good. Removes all logic from bounties. Seems to have gotten all related code. Will keep my out for any that was missed on when checking the rest of the PRs
+
+Lead Senior Watson comment on PR #116: 
+
+> Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
 
 
 # Issue M-5: Refunding logic with multiple deposits is first mover take all 
@@ -1014,7 +1169,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/114
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/257 
 
 ## Found by 
-ctf\_sec, yixxas, HonorLt, joestakey, unforgiven, TrungOre, chaduke, MyFDsYours, Ruhum, libratus, ltyu, Jeiwan, 0x52, HollaDieWaldfee
+chaduke, yixxas, HollaDieWaldfee, Ruhum, MyFDsYours, Jeiwan, 0x52, joestakey, HonorLt, unforgiven, ltyu, TrungOre, ctf\_sec, libratus
 
 ## Summary
 
@@ -1057,6 +1212,16 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/117
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 
+**jacksanford1**
+
+Lead Senior Watson comment on PR #116: 
+
+> Changes look good. Requires that funder is the issuer. This prevents a whole host of potential exploits in exchange for closing the otherwise open funding model.
+
+Lead Senior Watson comment on PR #117:
+
+> Changes look good. The refund logic has been simplified to match the newly simplified funding logic.
+
 
 
 # Issue M-6: Resizing the payout schedule with less items might revert 
@@ -1064,7 +1229,7 @@ https://github.com/OpenQDev/OpenQ-Contracts/pull/116
 Source: https://github.com/sherlock-audit/2023-02-openq-judging/issues/244 
 
 ## Found by 
-usmannk, ck, StErMi, GimelSec, caventa, bin2chen, HonorLt, TrungOre, unforgiven, rvierdiiev, ArcAnya, XKET, Jeiwan, ak1, clems4ever, 0x52
+GimelSec, caventa, StErMi, clems4ever, XKET, ck, Jeiwan, 0x52, HonorLt, unforgiven, ArcAnya, rvierdiiev, ak1, bin2chen, usmannk, TrungOre
 
 ## Summary
 
@@ -1154,6 +1319,12 @@ A valid issue but an invalid approach. Because if one is INCREASING the size of 
 This suggestion, combined with adding a `i >= previousArray.length` will do the trick
 
 https://github.com/OpenQDev/OpenQ-Contracts/pull/126
+
+**jacksanford1**
+
+Lead Senior Watson comment on PR #126:
+
+> Fixes look good. Payout schedule can now correctly be downsized
 
 
 
